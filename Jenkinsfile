@@ -2,7 +2,24 @@ pipeline {
     agent any
 
     stages {
+        stage('check-build'){
+            steps{
+                script{
+                    if(fileExists('build/index.html')){
+                        echo 'build exists, skipping build step'
+                        skipBuild = true
+                    }else{
+                        echo 'build doesnt exist,running build step'
+                        skipBuild = false
+                    }
+                }
+            }
+        }
         stage('Build') {
+            //condition to skip the build step
+            when{
+                expression {!skipBuild}
+            }
             agent {
                 docker {
                     image 'node:20-alpine'
