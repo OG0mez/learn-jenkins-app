@@ -34,10 +34,11 @@ pipeline {
                 '''
             }
         }
-        post {
+        
+    }
+    post {
             always{
                 junit 'tests-results/junit.xml'
             } 
         }
-    }
 }
